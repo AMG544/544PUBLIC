@@ -36,6 +36,7 @@ $result = $sqsclient->receiveMessage(array(
     // QueueUrl is required
     'QueueUrl' => $queueURL,
     'MaxNumberOfMessages' => 1, 
+    'WaitTimeSeconds' => 10,
 ));
 ######################################3
 # Probably need some logic in here to handle delays)
