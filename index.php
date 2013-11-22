@@ -6,9 +6,6 @@
 
 <body>
 <?php
-
-ini_set('display_errors',1); 
-error_reporting(E_ALL);
 // Include the SDK using the Composer autoloader
 require 'vendor/autoload.php';
 
@@ -21,7 +18,7 @@ $aws = Aws::factory('/var/www/vendor/aws/aws-sdk-php/src/Aws/Common/Resources/cu
 $snsclient = $aws->get('Sns'); 
 $sqsclient = $aws->get('Sqs');
 
-$topicName="mp1jrhresize";
+$topicName="mp1amgresize";
 
 $snsresult = $snsclient->createTopic(array(
     // Name is required
@@ -38,7 +35,7 @@ $snsresult = $snsclient->setTopicAttributes(array(
     'TopicArn' => $topicArn,
     // AttributeName is required
     'AttributeName' => 'DisplayName',
-    'AttributeValue' => 'aws544',
+    'AttributeValue' => 'amg544',
 ));
 
 $sqsresult = $sqsclient->createQueue(array('QueueName' => 'photo_q2',));
@@ -57,3 +54,4 @@ $qurl=$sqsresult['QueueUrl'];
 </body>
 
 </html>
+

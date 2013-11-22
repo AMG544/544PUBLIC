@@ -70,6 +70,7 @@ if (move_uploaded_file($_FILES['uploaded_file']['tmp_name'], $uploadfile)) {
 } else {
     echo "Possible file upload attack!\n";
 }
+
 $pathToFile = $uploaddir.$_FILES['uploaded_file']['name'];
 #echo 'Here is some more debugging info:';
 #print_r($_FILES);
@@ -97,7 +98,7 @@ $url= $result['ObjectURL'];
 ##################################################
 # Set simpleDB Domain here - 
 #################################################
-$domain = "itm544jrh"; 
+$domain = "itm544amg"; 
 $result = $sdbclient->createDomain(array(
     // DomainName is required
     'DomainName' => $domain, 
@@ -133,7 +134,7 @@ $result = $sdbclient->putAttributes(array(
 	),
          array(
             'Name' => 'finishedurl',
-            'Value' => '',
+            'Value' => ' ',
         ),     
          array(
             'Name' => 'filename',

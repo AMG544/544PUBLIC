@@ -68,7 +68,7 @@ $bucket = '';
 $id = '';
 $phone = '';
 $filename = '';
-$localfilename = ""; // this is a local variabel used to store the content of the s3 object
+$localfilename = ""; // this is a local variable used to store the content of the s3 object
 ###################################################################
 # Now we are going to loop through the response object to get the 
 # values of the returned object
