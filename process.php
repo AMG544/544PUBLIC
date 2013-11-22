@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <?php
 session_start();
+ini_set('display_errors',1); 
+error_reporting(E_ALL);
 
 // Include the SDK using the Composer autoloader
 require 'vendor/autoload.php';
@@ -77,6 +79,8 @@ $pathToFile = $uploaddir.$_FILES['uploaded_file']['name'];
 
 // Upload an object by streaming the contents of a file
 // $pathToFile should be absolute path to a file on disk
+
+
 $result = $client->putObject(array(
     'ACL'        => 'public-read',
     'Bucket'     => $bucket,
@@ -116,6 +120,8 @@ $result = $sdbclient->putAttributes(array(
            'Name' => 'rawurl',
             // Value is required
             'Value' => $url,
+		),
+		array(
            'Name' => 'bucket',
             // Value is required
             'Value' => $bucket,
@@ -128,15 +134,15 @@ $result = $sdbclient->putAttributes(array(
             'Name' =>  'email',
             'Value' => $_POST['email'],
          ),
-	array(
+		array(
             'Name' => 'phone',
             'Value' => $phone,
-	),
-         array(
+		),
+        array(
             'Name' => 'finishedurl',
             'Value' => ' ',
         ),     
-         array(
+        array(
             'Name' => 'filename',
             'Value' => basename($_FILES['uploaded_file']['name']),
         ), 
@@ -176,7 +182,7 @@ $result = $sqsclient->sendMessage(array(
     'QueueUrl' => $qurl,
     // MessageBody is required
     'MessageBody' => $UUID,
-    'DelaySeconds' => 15,
+	'DelaySeconds' => 15,
 ));
 
 $_SESSION['domain']=$domain;

@@ -2,6 +2,8 @@
 <?php
 #retrieve these values that were set in process.php to make our code more flexible
 session_start();
+ini_set('display_errors',1); 
+error_reporting(E_ALL);
 $queueURL = $_SESSION['queueurl'];
 $domain = $_SESSION['domain'];
 
@@ -24,7 +26,7 @@ $sdbclient = $aws->get('SimpleDb');
 
 $sqsclient = $aws->get('Sqs');
 
-$mbody="";
+$mbody=" ";
 
 
 #####################################################
@@ -61,14 +63,14 @@ $iterator = $sdbclient->getIterator('Select', array(
 ####################################################################
 # Declare some variables as place holders for the select object
 ####################################################################
-$email = '';
-$rawurl = '';
-$finishedurl = '';
-$bucket = '';
-$id = '';
-$phone = '';
-$filename = '';
-$localfilename = ""; // this is a local variable used to store the content of the s3 object
+$email = ' ';
+$rawurl = ' ';
+$finishedurl = ' ';
+$bucket = ' ';
+$id = ' ';
+$phone = ' ';
+$filename = ' ';
+//$localfilename = " "; // this is a local variable used to store the content of the s3 object
 ###################################################################
 # Now we are going to loop through the response object to get the 
 # values of the returned object
@@ -125,17 +127,20 @@ foreach ($iterator as $item) {
 ############################################################################
 $s3urlprefix = 'https://s3.amazonaws.com/';
 $localfilename = "/tmp/" . $filename;
+
 $result = $client->getObject(array(
     'Bucket' => $bucket,
     'Key'    => $filename,
     'SaveAs' => $localfilename,
 ));
+echo 'EL CLIENTE YA ESTA  CONFIGURADO';
 ############################################################################
 #  Now that we have called the s3 object and downloaded (getObject) the file
 # to our local system - lets pass the file to our watermark library 
 # http://en.wikipedia.org/wiki/Watermark -- using a function  
 ###########################################################################
 addStamp($localfilename);
+
 
 #########################################################################
 # PHP function for adding a "stamp" or watermark through the php gd library
@@ -158,16 +163,29 @@ $sy = imagesy($stamp);
 imagecopy($im, $stamp, imagesx($im) - $sx - $marge_right, imagesy($im) - $sy - $marge_bottom, 0, 0, imagesx($stamp), imagesy($stamp));
 
 // Output and free memory
-header('Content-type: image/png');
-imagepng($im);
+imagepng($im, '/tmp/'.basename(preg_replace("/\\.[^.\\s]{3,4}$/", "", $image)).'modify.png');
 imagedestroy($im);
 
 } // end of function
+$Key = basename(preg_replace("/\\.[^.\\s]{3,4}$/", "", $localfilename)).'modify.png';
+$SourceFile = preg_replace("/\\.[^.\\s]{3,4}$/", "", $localfilename).'modify.png';
+
+$result = $client->putObject(array(
+    'ACL'        => 'public-read',
+    'Bucket'     => $bucket,
+    'Key'        => $Key,
+    'SourceFile' => $SourceFile,
+    'Metadata'   => array(
+        'timestamp' => time(),
+        'md5' =>  md5_file($SourceFile),
+    )
+));
 
 ?>
 <html>
 <head><title>Resize PHP</title></head>
 <body>
 <img src="/tmp/<? echo $filename ?>" />
+<p> TUTO ES IDIOTA </p>
 </body>
 </html>

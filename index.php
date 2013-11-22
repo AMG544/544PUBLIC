@@ -6,6 +6,8 @@
 
 <body>
 <?php
+ini_set('display_errors',1); 
+error_reporting(E_ALL);
 // Include the SDK using the Composer autoloader
 require 'vendor/autoload.php';
 
@@ -54,4 +56,5 @@ $qurl=$sqsresult['QueueUrl'];
 </body>
 
 </html>
+
 
