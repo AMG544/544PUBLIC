@@ -35,8 +35,8 @@ $mbody=" ";
 $result = $sqsclient->receiveMessage(array(
     // QueueUrl is required
     'QueueUrl' => $queueURL,
-    'MaxNumberOfMessages' => 1, 
-    'WaitTimeSeconds' => 10,
+    'MaxNumberOfMessages' => 1,
+	'WaitTimeSeconds' => 10,
 ));
 ######################################3
 # Probably need some logic in here to handle delays)
@@ -134,7 +134,8 @@ $result = $client->getObject(array(
     'Key'    => $filename,
     'SaveAs' => $localfilename,
 ));
-echo 'EL CLIENTE YA ESTA  CONFIGURADO';
+
+
 ############################################################################
 #  Now that we have called the s3 object and downloaded (getObject) the file
 # to our local system - lets pass the file to our watermark library 
@@ -181,12 +182,32 @@ $result = $client->putObject(array(
         'md5' =>  md5_file($SourceFile),
     )
 ));
+$finishedurl = $result['ObjectURL'];
+
+$result = $sdbclient->putAttributes(array(
+    // DomainName is required
+    'DomainName' => $domain,
+   // ItemName is required
+    'ItemName' =>'images-'.$mbody ,
+    // Attributes is required
+    'Attributes' => array(
+        array(
+            'Name' => 'finishedurl',
+			'Replace' => True, 
+            'Value' => $finishedurl,
+        ),     
+    ),
+));
+
+$_SESSION['finishedURL']=$result['ObjectURL'];
 
 ?>
 <html>
 <head><title>Resize PHP</title></head>
 <body>
 <img src="/tmp/<? echo $filename ?>" />
-<p> TUTO ES IDIOTA </p>
+<script>
+window.location = 'cleanup.php';
+</script>
 </body>
 </html>

@@ -57,4 +57,3 @@ $qurl=$sqsresult['QueueUrl'];
 
 </html>
 
-
