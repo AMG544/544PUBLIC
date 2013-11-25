@@ -69,6 +69,8 @@ $result = $snsclient->publish(array(
 ));
 
 
+
+
 // ------------------------------------------Set object expire to remove the image in one day
 //bool date_default_timezone_set ('America/Chicago'));
 //$date = new DateTime("2012-07-05 16:43:21", new DateTimeZone('America/Chicago')); 
@@ -98,6 +100,11 @@ $result = $client->putBucketLifecycle(array(
         // ... repeated
     ),
 ));
+
+$result = $snsclient->deleteTopic(array(
+    // TopicArn is required
+    'TopicArn' => $topicArn,
+));
 ?> 
 <html>
 <head>
@@ -113,3 +120,4 @@ $result = $client->putBucketLifecycle(array(
 <img src = "<?php echo $finishedurl ?>">
 </body>
 </html>
+
