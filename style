@@ -1,0 +1,32 @@
+body 
+{
+    color: black;
+	   }
+table
+{
+	border: 12px solid red;
+	text-align: center;
+	font-family: Arial, "Times New Roman";
+}
+td
+{
+	color: black;
+	border:4px solid black;
+}
+th
+{
+	color: brown;
+	border:4px solid black;
+}
+h2 {
+	color: brown;
+	text-align: center;
+	font-family: 'Share Tech',Arial, "Times New Roman";
+	font-size:26px;
+}
+h3 {
+	color: brown;
+	text-align: center;
+	font-family:'Diplomata sc',Arial ,"Times New Roman";
+    font-size:26px;
+}

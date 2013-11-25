@@ -6,6 +6,9 @@ ini_set('display_errors',1);
 error_reporting(E_ALL);
 $queueURL = $_SESSION['queueurl'];
 $domain = $_SESSION['domain'];
+$topicArn = $_SESSION['topicArn'];
+$urlBefore = $_SESSION['url'];
+
 
 // Include the SDK using the Composer autoloader
 require 'vendor/autoload.php';
@@ -129,6 +132,7 @@ foreach ($iterator as $item) {
 $s3urlprefix = 'https://s3.amazonaws.com/';
 $localfilename = "/tmp/" . $filename;
 
+
 $result = $client->getObject(array(
     'Bucket' => $bucket,
     'Key'    => $filename,
@@ -199,7 +203,13 @@ $result = $sdbclient->putAttributes(array(
     ),
 ));
 
-$_SESSION['finishedURL']=$result['ObjectURL'];
+$_SESSION['finishedURL']=$finishedurl;
+$_SESSION['url2']=$urlBefore;
+$_SESSION['queueurl']=$queueURL;
+$_SESSION['domain']=$domain;
+$_SESSION['topicArn']=$topicArn;
+$_SESSION['bucket']=$bucket;
+$_SESSION['SourceFile']=$SourceFile;
 
 ?>
 <html>

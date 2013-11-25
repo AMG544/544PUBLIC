@@ -80,7 +80,6 @@ $pathToFile = $uploaddir.$_FILES['uploaded_file']['name'];
 // Upload an object by streaming the contents of a file
 // $pathToFile should be absolute path to a file on disk
 
-
 $result = $client->putObject(array(
     'ACL'        => 'public-read',
     'Bucket'     => $bucket,
@@ -187,6 +186,8 @@ $result = $sqsclient->sendMessage(array(
 
 $_SESSION['domain']=$domain;
 $_SESSION['queueurl']=$qurl;
+$_SESSION['topicArn']=$topicArn;
+$_SESSION['url']=$url;
 
 ?>
 <html>
