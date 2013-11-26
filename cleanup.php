@@ -100,11 +100,12 @@ $result = $client->putBucketLifecycle(array(
         // ... repeated
     ),
 ));
-
+/*
 $result = $snsclient->deleteTopic(array(
     // TopicArn is required
     'TopicArn' => $topicArn,
 ));
+*/
 ?> 
 <html>
 <head>

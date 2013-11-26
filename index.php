@@ -23,8 +23,8 @@ $aws = Aws::factory('/var/www/vendor/aws/aws-sdk-php/src/Aws/Common/Resources/cu
 $snsclient = $aws->get('Sns'); 
 $sqsclient = $aws->get('Sqs');
 
-$topicName = uniqid();
-//$topicName="mp1amgresize";
+//$topicName = uniqid();
+$topicName="mp1amgresize";
 
 $snsresult = $snsclient->createTopic(array(
     // Name is required
@@ -60,5 +60,4 @@ $qurl=$sqsresult['QueueUrl'];
 </body>
 
 </html>
-
 
