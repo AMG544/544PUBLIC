@@ -12,6 +12,7 @@ use Aws\Sns\Exception\InvalidParameterException;
 use Aws\Common\Aws;
 use Aws\Sqs\SqsClient;
 use Aws\SimpleDb\SimpleDbClient;
+use Aws\Ses\SesClient;
 
 // Instantiate the S3 client with your AWS credentials and desired AWS regionws\Common\Aws;
 
@@ -26,6 +27,8 @@ $snsclient = $aws->get('Sns');
 
 $sqsclient = $aws->get('Sqs');
 
+$sesclient = $aws->get('Ses');
+
 $UUID = uniqid();
 $email = str_replace("@","-",$_POST["email"]); 
 $bucket = str_replace("@", "-",$_POST["email"]).time(); 
@@ -34,6 +37,32 @@ $topic = explode("-",$email );
 $itemName = 'images-'.$UUID;
 $topicArn = $_POST["topicArn"];
 $qurl = $_POST["qurl"];
+
+
+$result = $sesclient->sendEmail(array(
+    // Source is required
+    'Source' => 'amargomez@hotmail.com',
+    // Destination is required
+    'Destination' => array(
+        'ToAddresses' => array($_POST['email']),
+    ),
+    // Message is required
+    'Message' => array(
+        // Subject is required
+        'Subject' => array(
+            // Data is required
+            'Data' => 'Thanks!',
+        ),
+        // Body is required
+        'Body' => array(
+            'Text' => array(
+                // Data is required
+                'Data' => 'Thanks for using AMG544 services!',
+            ),
+        ),
+    ),
+));
+
 #############################################
 # Create SNS Simple Notification Service Topic for subscription
 ##############################################
@@ -204,4 +233,3 @@ window.location = 'resize.php';
 </html>
 
 </html>
-
